@@ -1,4 +1,5 @@
 # Laravel 5.x extended PostgreSQL driver
+[![Build Status](https://travis-ci.org/yurykabanov/laravel-postgres-ext.svg?branch=master)](https://travis-ci.org/yurykabanov/laravel-postgres-ext)
 
 This project was inspired by features PostgreSQL supports and Laravel does not. Unfortunately, such features are not accepted in official repository (like [this one](https://github.com/laravel/framework/pull/9866)) and developers are told to use raw queries that is completely wrong solution in my opinion.
 
