@@ -16,6 +16,9 @@ class PostgresGrammar extends BasePostgresGrammar {
     public function compileUpsert(Builder $query, array $values, $unique) {
         $insert = $this->compileInsert($query, $values);
 
+        if (! is_array(reset($values))) {
+            $values = [$values];
+        }
         $keys = array_keys(reset($values));
 
         // excluded fields are all fields except $unique one that will be updated
