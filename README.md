@@ -5,7 +5,9 @@ This project was inspired by features PostgreSQL supports and Laravel does not. 
 
 ## Installation
 
-TODO
+1. Run `composer require yurykabanov/laravel-postgres-ext` to install this package.
+2. Change database service provider from original `Illuminate\Database\DatabaseServiceProvider::class` to `YuryKabanov\Database\DatabaseServiceProvider::class`.
+3. In models instead of `Illuminate\Database\Eloquent\Model` extend `YuryKabanov\Database\Eloquent\Model`.
 
 ## Features available
 
