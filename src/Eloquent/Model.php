@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 use YuryKabanov\Database\Query\Builder;
 
 abstract class Model extends BaseModel {
+    /**
+     * {@inheritdoc}
+     */
     protected function newBaseQueryBuilder() {
         $conn = $this->getConnection();
 

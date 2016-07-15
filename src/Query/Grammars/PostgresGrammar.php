@@ -9,8 +9,9 @@ class PostgresGrammar extends BasePostgresGrammar {
     /**
      * Compile an upsert statement into SQL.
      *
-     * @param  \YuryKabanov\Database\Query\Builder  $query
-     * @param  array  $values
+     * @param  \YuryKabanov\Database\Query\Builder $query
+     * @param  array $values
+     * @param  string $unique
      * @return string
      */
     public function compileUpsert(Builder $query, array $values, $unique) {
