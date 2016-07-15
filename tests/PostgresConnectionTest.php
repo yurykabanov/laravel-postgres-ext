@@ -5,6 +5,8 @@ namespace YuryKabanov\Database;
 use PHPUnit\Framework\TestCase;
 
 class PostgresConnectionTest extends TestCase {
+    private $connection;
+
     public function setUp() {
         $this->connection = new PostgresConnection(null);
         $this->connection->useDefaultSchemaGrammar();

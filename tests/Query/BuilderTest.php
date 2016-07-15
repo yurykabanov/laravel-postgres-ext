@@ -8,8 +8,6 @@ use YuryKabanov\Database\PostgresConnection;
 
 class BuilderTest extends TestCase {
     public function testUpsert() {
-        $grammar = new Grammars\PostgresGrammar;
-
         $connection = $this->getMockBuilder(PostgresConnection::class)
             ->setConstructorArgs([ null ])
             ->setMethods([ 'insert' ])

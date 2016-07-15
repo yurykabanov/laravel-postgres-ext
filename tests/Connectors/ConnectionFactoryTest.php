@@ -9,6 +9,8 @@ use Illuminate\Database\MysqlConnection;
 use YuryKabanov\Database\PostgresConnection;
 
 class ConnectionFactoryTest extends TestCase {
+    private $factory;
+
     public function setUp() {
         $container = new Container();
         $this->factory = new ConnectionFactory($container);
