@@ -25,5 +25,23 @@ TODO
 
 ### Various index types
 
-TODO
+PostgreSQL supports [several index types](https://www.postgresql.org/docs/current/static/sql-createindex.html): **btree**, **hash**, **gist**, **spgist**, **gin**, and **brin** (as for version 9.5) and other index-related features (for example, index can be created concurrently, i.e. without table locking). This package supports creation of all currently supported indexing methods (defined in `PostgresGrammar::SUPPORTED_INDEX_METHODS`).
+
+Indexes can be created using the same syntax as original one:
+```php
+$table->index('column_name');
+```
+but it now accepts additional parameters:
+```php
+$table->index('column_name', 'index_name', $methodName, $arrayOfOptions);
+```
+where `$methodName` is one of methods listed before and `$arrayOfOptions` is array with different options (like concurrency and uniqueness).
+
+**Examples**:
+```php
+$table->index('column_name', 'index_name', 'gist', [ 'concurrently' => true ]); // create index concurrently ... using gist ...
+$table->index('column_name', 'index_name', 'gin',  [ 'unique' => true ]);       // create unique index ... using btree ...
+```
+
+**Note**, that there's two ways of making column unique: using **constraint** and **index** ([more information](http://stackoverflow.com/questions/23542794/postgres-unique-constraint-vs-index)). Laravel uses **constraint** to ensure uniqueness of column, this behavior stays the same for `$table->unique()` but you can also create **unique index** using `$table->index($col, $index, $method, [ 'unique' => true ])`.
 
