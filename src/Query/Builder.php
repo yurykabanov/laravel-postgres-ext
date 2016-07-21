@@ -4,11 +4,10 @@ namespace YuryKabanov\Database\Query;
 
 use Illuminate\Database\Query\Builder as BaseBuilder;
 
-class Builder extends BaseBuilder {
+class Builder extends BaseBuilder
+{
     /**
-     * The database query grammar instance.
-     *
-     * @var \YuryKabanov\Database\Query\Grammars\PostgresGrammar
+     * @var Grammars\PostgresGrammar The database query grammar instance.
      */
     protected $grammar;
 
@@ -20,7 +19,8 @@ class Builder extends BaseBuilder {
      *
      * @return bool
      */
-    public function upsert(array $values, $unique) {
+    public function upsert(array $values, $unique)
+    {
         if (empty($values)) {
             return true;
         }

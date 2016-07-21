@@ -3,11 +3,12 @@
 namespace YuryKabanov\Database\Query;
 
 use PHPUnit\Framework\TestCase;
-
 use YuryKabanov\Database\PostgresConnection;
 
-class BuilderTest extends TestCase {
-    public function testUpsert() {
+class BuilderTest extends TestCase
+{
+    public function testUpsert()
+    {
         $connection = $this->getMockBuilder(PostgresConnection::class)
             ->setConstructorArgs([ null ])
             ->setMethods([ 'insert' ])

@@ -3,13 +3,14 @@
 namespace YuryKabanov\Database\Eloquent;
 
 use PHPUnit\Framework\TestCase;
-
 use Illuminate\Database\ConnectionResolverInterface;
 use YuryKabanov\Database\PostgresConnection;
 use YuryKabanov\Database\Query\Builder;
 
-class ModelTest extends TestCase {
-    public function testQueryBuilder() {
+class ModelTest extends TestCase
+{
+    public function testQueryBuilder()
+    {
         $connection = $this->getMockBuilder(PostgresConnection::class)
             ->setConstructorArgs([ null ])
             ->getMock();

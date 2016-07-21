@@ -3,38 +3,46 @@
 namespace YuryKabanov\Database\Connectors;
 
 use PHPUnit\Framework\TestCase;
-
 use Illuminate\Container\Container;
-use Illuminate\Database\MysqlConnection;
+use Illuminate\Database\MySqlConnection;
 use YuryKabanov\Database\PostgresConnection;
 
-class ConnectionFactoryTest extends TestCase {
+class ConnectionFactoryTest extends TestCase
+{
+    /**
+     * @var ConnectionFactory
+     */
     private $factory;
 
-    public function setUp() {
+    public function setUp()
+    {
         $container = new Container();
         $this->factory = new ConnectionFactory($container);
     }
 
-    public function testMakePostgresConnection() {
+    public function testMakePostgresConnection()
+    {
         $connection = $this->factory->make($this->makeConfig('pgsql'));
 
         $this->assertInstanceOf(PostgresConnection::class, $connection);
     }
 
-    public function testMakeMysqlConnection() {
+    public function testMakeMysqlConnection()
+    {
         $connection = $this->factory->make($this->makeConfig('mysql'));
 
-        $this->assertInstanceOf(MysqlConnection::class, $connection);
+        $this->assertInstanceOf(MySqlConnection::class, $connection);
     }
 
-    public function testMakeUnsupportedConnectionException() {
+    public function testMakeUnsupportedConnectionException()
+    {
         $this->expectException(\InvalidArgumentException::class);
 
         $this->factory->make($this->makeConfig('definitely-not-supported-driver'));
     }
 
-    private function makeConfig($driver) {
+    private function makeConfig($driver)
+    {
         return [
             'driver' => $driver,
             'host' => 'localhost',

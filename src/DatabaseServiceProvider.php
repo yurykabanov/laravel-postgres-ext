@@ -7,11 +7,13 @@ use Illuminate\Database\DatabaseServiceProvider as BaseDatabaseServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\DatabaseManager;
 
-class DatabaseServiceProvider extends BaseDatabaseServiceProvider {
+class DatabaseServiceProvider extends BaseDatabaseServiceProvider
+{
     /**
      * {@inheritdoc}
      */
-    public function register() {
+    public function register()
+    {
         Model::clearBootedModels();
 
         $this->registerEloquentFactory();

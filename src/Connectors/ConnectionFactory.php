@@ -5,11 +5,13 @@ namespace YuryKabanov\Database\Connectors;
 use YuryKabanov\Database\PostgresConnection;
 use Illuminate\Database\Connectors\ConnectionFactory as BaseConnectionFactory;
 
-class ConnectionFactory extends BaseConnectionFactory {
+class ConnectionFactory extends BaseConnectionFactory
+{
     /**
      * {@inheritdoc}
      */
-    protected function createConnection($driver, $connection, $database, $prefix = '', array $config = []) {
+    protected function createConnection($driver, $connection, $database, $prefix = '', array $config = [])
+    {
         if ($this->container->bound($key = "db.connection.{$driver}")) {
             return $this->container->make($key, [$connection, $database, $prefix, $config]);
         }

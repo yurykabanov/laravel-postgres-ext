@@ -3,12 +3,13 @@
 namespace YuryKabanov\Database\Query\Grammars;
 
 use PHPUnit\Framework\TestCase;
-
 use YuryKabanov\Database\Query\Builder;
 use YuryKabanov\Database\PostgresConnection;
 
-class PostgresGrammarTest extends TestCase {
-    public function testCompileUpsert() {
+class PostgresGrammarTest extends TestCase
+{
+    public function testCompileUpsert()
+    {
         $grammar = new PostgresGrammar;
 
         $values = [
@@ -28,7 +29,8 @@ class PostgresGrammarTest extends TestCase {
         $this->assertEquals($compiled, $sql);
     }
 
-    private function makeQueryMock() {
+    private function makeQueryMock()
+    {
         $connection = $this->createMock(PostgresConnection::class);
 
         $query = $this->getMockBuilder(Builder::class)
