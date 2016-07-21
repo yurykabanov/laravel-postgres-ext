@@ -9,9 +9,9 @@ use Illuminate\Support\Fluent;
 class PostgresGrammar extends BasePostgresGrammar
 {
     /**
-     * Index methods supported by PostgreSQL
+     * @var array Index methods supported by PostgreSQL
      */
-    const SUPPORTED_INDEX_METHODS = [ 'btree', 'hash', 'gin', 'gist', 'spgist', 'brin' ];
+    protected $supported_index_methods = [ 'btree', 'hash', 'gin', 'gist', 'spgist', 'brin' ];
 
     /**
      * @param Blueprint $blueprint
@@ -28,7 +28,7 @@ class PostgresGrammar extends BasePostgresGrammar
         $concurrently = !empty($command->options['concurrently']) ? 'concurrently' : '';
 
         // check for any supported method and use it or default btree method
-        $method = in_array($command->method, static::SUPPORTED_INDEX_METHODS) ? $command->method : 'btree';
+        $method = in_array($command->method, $this->supported_index_methods) ? $command->method : 'btree';
 
         // uniqueness
         $unique = !empty($command->options['unique']) ? 'unique' : '';
