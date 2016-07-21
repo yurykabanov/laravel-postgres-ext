@@ -15,4 +15,32 @@ class PostgresBuilder extends BasePostgresBuilder
     {
         return new Blueprint($table, $callback);
     }
+
+    /**
+     * Creates view as given select statement
+     *
+     * @param string $view
+     * @param string $select
+     * @param bool $materialize
+     */
+    public function createView($view, $select, $materialize = false) {
+        $blueprint = $this->createBlueprint($view);
+
+        $blueprint->createView($select, $materialize);
+
+        $this->build($blueprint);
+    }
+
+    /**
+     * Drops view
+     *
+     * @param string $view
+     */
+    public function dropView($view) {
+        $blueprint = $this->createBlueprint($view);
+
+        $blueprint->dropView();
+
+        $this->build($blueprint);
+    }
 }

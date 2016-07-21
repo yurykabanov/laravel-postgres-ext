@@ -8,7 +8,7 @@ class Blueprint extends BaseBlueprint
 {
     /**
      * @param array|string $columns
-     * @param null $name
+     * @param string $name
      * @param string $method
      * @param array $options
      * @return \Illuminate\Support\Fluent
@@ -17,12 +17,6 @@ class Blueprint extends BaseBlueprint
     {
         return $this->indexCommand('index', $columns, $name, $method, $options);
     }
-
-    public function unique($columns, $name = null, $method = 'btree', array $options = [])
-    {
-        return $this->indexCommand('unique', $columns, $name, $method, $options);
-    }
-
 
     /**
      * @param string $type
@@ -44,5 +38,23 @@ class Blueprint extends BaseBlueprint
         }
 
         return $this->addCommand($type, compact('index', 'columns', 'method', 'options'));
+    }
+
+    /**
+     * @return \Illuminate\Support\Fluent
+     */
+    public function dropView()
+    {
+        return $this->addCommand('dropView');
+    }
+
+    /**
+     * @param string $select
+     * @param bool $materialize
+     * @return \Illuminate\Support\Fluent
+     */
+    public function createView($select, $materialize = false)
+    {
+        return $this->addCommand('createView', compact('select', 'materialize'));
     }
 }

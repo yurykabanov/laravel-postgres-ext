@@ -40,4 +40,29 @@ class PostgresGrammar extends BasePostgresGrammar
             "({$columns})"                                           // columns
         ]));
     }
+
+    /**
+     * @param Blueprint $blueprint
+     * @param Fluent $command
+     * @return string
+     */
+    public function compileDropView(Blueprint $blueprint, Fluent $command)
+    {
+        return "drop view " . $this->wrapTable($blueprint);
+    }
+
+    /**
+     * @param Blueprint $blueprint
+     * @param Fluent $command
+     * @return string
+     */
+    public function compileCreateView(Blueprint $blueprint, Fluent $command)
+    {
+        $materialize = $command->materialize ? 'materialized' : '';
+        return join(' ', array_filter([
+            'create', $materialize, 'view',                          // CREATE [MATERIALIZED] VIEW
+            $this->wrapTable($blueprint),                            // name
+            'as', $command->select                                   // AS {select}
+        ]));
+    }
 }

@@ -70,13 +70,28 @@ class PostgresGrammarTest extends TestCase
         $this->assertEquals($expected, $compiled);
     }
 
-    public function testCompileUniqueIndexDefault()
+    public function testCompileIndexUnique()
     {
         $compiled = $this->compileIndexUniqueUsing('unique', 'btree', false, true);
 
         $expected = 'create unique index '
             . '"some_table_some_column_unique" on "some_table" '
             . 'using btree ("some_column")';
+
+        $this->assertEquals($expected, $compiled);
+    }
+
+    public function testCompileUniqueUnchanged()
+    {
+        $fluent = new Fluent([
+            'name' => 'unique',
+            'index' => "some_table_some_column_unique",
+            'columns' => ['some_column']
+        ]);
+
+        $compiled = $this->grammar->compileUnique($this->blueprint, $fluent);
+
+        $expected = 'alter table "some_table" add constraint "some_table_some_column_unique" unique ("some_column")';
 
         $this->assertEquals($expected, $compiled);
     }
