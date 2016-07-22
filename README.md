@@ -3,6 +3,11 @@
 
 This project was inspired by features PostgreSQL supports and Laravel does not. Unfortunately, such features are not accepted in official repository (like [this one](https://github.com/laravel/framework/pull/9866)) and developers are told to use raw queries that is completely wrong solution in my opinion.
 
+## Requirements
+
+1. PHP >= 5.6 or HHVM (probably it will work on PHP 5.5.9, which is a minimal requirement of Laravel, but it was not tested since PHPUnit 5 requires at least PHP 5.6)
+2. PostgreSQL. Obviously it has to support particular feature you want to use. For example, to use **views** it has to be at least 9.1, to use **upsert** it has to be at least 9.5 (current stable). 
+
 ## Installation
 
 1. Run `composer require yurykabanov/laravel-postgres-ext` to install this package.
@@ -41,7 +46,7 @@ $table->index('column_name', 'index_name', 'gin',  [ 'unique' => true ]);       
 
 **Note**, that there's two ways of making column unique: using **constraint** and **index** ([more information](http://stackoverflow.com/questions/23542794/postgres-unique-constraint-vs-index)). Laravel uses **constraint** to ensure uniqueness of column, this behavior stays the same for `$table->unique()` but you can also create **unique index** using `$table->index($col, $index, $method, [ 'unique' => true ])`.
 
-### View
+### Views
 
 PostgreSQL supports **views** (since version 9.1) and **materialized view** (since version 9.3). These can be created using `DB::statement()` but it's more convenient to use some aliases to manage views.
  
