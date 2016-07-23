@@ -68,3 +68,18 @@ So far it doesn't support some query builders since view's select statement coul
 ### Jsonb operators
 
 Laravel *does* support **jsonb** type and is supposed to support jsonb operators like `?`, `?|` and `?&` but it is impossible to use them in queries since they are treated as parameters in prepared statements. This packages automatically wraps these operators in appropriate functions (Note that '?|' also used for other types -- this behavior is not supported at this moment).
+
+### Group by grouping sets, rollup, cube
+
+Available group by expressions described [in official documentation](https://www.postgresql.org/docs/devel/static/queries-table-expressions.html).
+
+```php
+// GROUP BY GROUPING SETS ((brand), (size), ())
+DB::table('some_table')->groupByGroupingSets('brand', 'size', null);
+
+// GROUP BY ROLLUP (e1, e2, e3)
+DB::table('some_table')->groupByRollup('brand', 'size', null);
+
+// GROUP BY CUBE (e1, e2, e3)
+DB::table('some_table')->groupByCube('brand', 'size', null);
+```

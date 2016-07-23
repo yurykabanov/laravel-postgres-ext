@@ -49,4 +49,50 @@ class Builder extends BaseBuilder
         // we can use insert since upsert is customized insert
         return $this->connection->insert($sql, $bindings);
     }
+
+
+    /**
+     * Add a "group by" clause with "grouping sets" to the query.
+     *
+     * @param array ...$args
+     * @return $this
+     */
+    public function groupByGroupingSets(...$args)
+    {
+        $expr = $this->grammar->compileGroupingSets($args);
+
+        $this->groups[] = $this->connection->raw($expr);
+
+        return $this;
+    }
+
+    /**
+     * Add a "group by" clause with "rollup" to the query.
+     *
+     * @param array ...$args
+     * @return $this
+     */
+    public function groupByRollup(...$args)
+    {
+        $expr = $this->grammar->compileRollup($args);
+
+        $this->groups[] = $this->connection->raw($expr);
+
+        return $this;
+    }
+
+    /**
+     * Add a "group by" clause with "cube" to the query.
+     *
+     * @param array ...$args
+     * @return $this
+     */
+    public function groupByCube(...$args)
+    {
+        $expr = $this->grammar->compileCube($args);
+
+        $this->groups[] = $this->connection->raw($expr);
+
+        return $this;
+    }
 }

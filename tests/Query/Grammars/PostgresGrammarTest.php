@@ -59,6 +59,36 @@ class PostgresGrammarTest extends TestCase
         $this->assertEquals('select * where jsonb_exists_all("some_field", ?)', $compiled);
     }
 
+    public function testCompileGroupingSets()
+    {
+        $grammar = new PostgresGrammar;
+
+        $this->assertEquals(
+            'grouping sets ( ("aaa"), ("bbb"), ("ccc", "ddd"), () )',
+            $grammar->compileGroupingSets([ 'aaa', 'bbb', [ 'ccc', 'ddd' ], null ])
+        );
+    }
+
+    public function testCompileRollup()
+    {
+        $grammar = new PostgresGrammar();
+
+        $this->assertEquals(
+            'rollup ( "aaa", "bbb", "ccc" )',
+            $grammar->compileRollup([ 'aaa', 'bbb', 'ccc' ])
+        );
+    }
+
+    public function testCompileCube()
+    {
+        $grammar = new PostgresGrammar();
+
+        $this->assertEquals(
+            'cube ( "aaa", "bbb", "ccc" )',
+            $grammar->compileCube([ 'aaa', 'bbb', 'ccc' ])
+        );
+    }
+
     private function makeQueryMock()
     {
         $query = $this->getMockBuilder(Builder::class)

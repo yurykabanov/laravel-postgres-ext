@@ -76,4 +76,55 @@ class PostgresGrammar extends BasePostgresGrammar
 
         return "$func(" . $this->wrap($where['column']) . ', ' . $value . ')';
     }
+
+    /**
+     * Compile "grouping sets" expression
+     *
+     * @param array $groups
+     * @return string
+     */
+    public function compileGroupingSets(array $groups)
+    {
+        $args = array_map(function ($group) {
+            return '(' . join(', ', $this->wrapColumns($group)) . ')';
+        }, $groups);
+
+        return 'grouping sets ( ' . join(', ', $args) . ' )';
+    }
+    /**
+     * Compile "rollup" expression
+     *
+     * @param array $groups
+     * @return string
+     */
+
+    public function compileRollup(array $groups)
+    {
+        $args = $this->wrapColumns($groups);
+        return 'rollup ( ' . join(', ', $args) . ' )';
+    }
+    /**
+     * Compile "cube" expression
+     *
+     * @param array $groups
+     * @return string
+     */
+    public function compileCube(array $groups)
+    {
+        $args = $this->wrapColumns($groups);
+        return 'cube ( ' . join(', ', $args) . ' )';
+    }
+
+    /**
+     * Wraps array of columns
+     *
+     * @param array $columns
+     * @return array
+     */
+    protected function wrapColumns($columns)
+    {
+        return array_map(function ($e) {
+            return $this->wrap($e);
+        }, (array) $columns);
+    }
 }
