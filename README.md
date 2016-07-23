@@ -63,4 +63,8 @@ and dropped:
 Schema::dropView('some_view');
 ```
 
-So far it doesn't support some query builders since view's select statement could be (and usually *is*) very complicated.  
+So far it doesn't support some query builders since view's select statement could be (and usually *is*) very complicated.
+
+### Jsonb operators
+
+Laravel *does* support **jsonb** type and is supposed to support jsonb operators like `?`, `?|` and `?&` but it is impossible to use them in queries since they are treated as parameters in prepared statements. This packages automatically wraps these operators in appropriate functions (Note that '?|' also used for other types -- this behavior is not supported at this moment).

@@ -26,18 +26,51 @@ class PostgresGrammarTest extends TestCase
 
         $compiled = $grammar->compileUpsert($this->makeQueryMock(), $values, 'uniq');
 
-        $this->assertEquals($compiled, $sql);
+        $this->assertEquals($sql, $compiled);
+    }
+
+    public function testWhereJsonbExistsOperator()
+    {
+        $builder = new Builder($this->makeConnectionMock(), new PostgresGrammar);
+        $builder->where('some_field', '?', 'some_value');
+
+        $compiled = $builder->toSql();
+
+        $this->assertEquals('select * where jsonb_exists("some_field", ?)', $compiled);
+    }
+
+    public function testWhereJsonbExistsAnyOperator()
+    {
+        $builder = new Builder($this->makeConnectionMock(), new PostgresGrammar);
+        $builder->where('some_field', '?|', 'some_value');
+
+        $compiled = $builder->toSql();
+
+        $this->assertEquals('select * where jsonb_exists_any("some_field", ?)', $compiled);
+    }
+
+    public function testWhereJsonbExistsAllOperator()
+    {
+        $builder = new Builder($this->makeConnectionMock(), new PostgresGrammar);
+        $builder->where('some_field', '?&', 'some_value');
+
+        $compiled = $builder->toSql();
+
+        $this->assertEquals('select * where jsonb_exists_all("some_field", ?)', $compiled);
     }
 
     private function makeQueryMock()
     {
-        $connection = $this->createMock(PostgresConnection::class);
-
         $query = $this->getMockBuilder(Builder::class)
-            ->setConstructorArgs([ $connection ])
+            ->setConstructorArgs([ $this->makeConnectionMock() ])
             ->getMock();
         $query->from = 'some_table';
 
         return $query;
+    }
+
+    private function makeConnectionMock()
+    {
+        return $this->createMock(PostgresConnection::class);
     }
 }
