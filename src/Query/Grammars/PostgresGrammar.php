@@ -3,10 +3,25 @@
 namespace YuryKabanov\Database\Query\Grammars;
 
 use Illuminate\Database\Query\Grammars\PostgresGrammar as BasePostgresGrammar;
+use Illuminate\Database\Query\Builder as BaseBuilder;
+
 use YuryKabanov\Database\Query\Builder;
 
 class PostgresGrammar extends BasePostgresGrammar
 {
+    /**
+     * Jsonb operators that require function wrapping
+     *
+     * TODO: operator '?|' also fits for points and lines
+     *
+     * @var array
+     */
+    protected $jsonbOperators = [
+        '?' => 'jsonb_exists',
+        '?|' => 'jsonb_exists_any',
+        '?&' => 'jsonb_exists_all'
+    ];
+
     /**
      * Compile an upsert statement into SQL.
      *
@@ -33,5 +48,32 @@ class PostgresGrammar extends BasePostgresGrammar
         $update = join(', ', array_map(function ($e) { return "\"$e\" = \"excluded\".\"$e\""; }, $excluded));
 
         return "$insert on conflict ($unique) do update set $update";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function whereBasic(BaseBuilder $query, $where)
+    {
+        if (in_array($where['operator'], array_keys($this->jsonbOperators))) {
+            return $this->whereJsonbOperators($where);
+        }
+
+        return parent::whereBasic($query, $where);
+    }
+
+    /**
+     * Compile where clause wrapping jsonb operators with appropriate functions
+     *
+     * @param $where
+     * @return string
+     */
+    protected function whereJsonbOperators($where)
+    {
+        $value = $this->parameter($where['value']);
+
+        $func = $this->jsonbOperators[$where['operator']];
+
+        return "$func(" . $this->wrap($where['column']) . ', ' . $value . ')';
     }
 }
